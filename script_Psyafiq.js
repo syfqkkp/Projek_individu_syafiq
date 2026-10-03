@@ -24,7 +24,7 @@ const mk = (id, title, cat, sub, due, day, start) =>
   ({ id, title, cat, sub, due, day, start: start || 0, done: false, note: '', check: [] });
 let tasks = [
   mk(1, 'Projek individu pemweb', 'Learning', 'Pemrograman Web', '5 Okt', 5, 1),
-  mk(2, 'Telaah kurikulum esempe', 'Learning', 'Telaah Kurikulum', '6 Okt', 6),
+  mk(2, 'Telaah kurikulum SMP', 'Learning', 'Telaah Kurikulum', '6 Okt', 6),
   mk(3, 'Laprak jarkomdat', 'Learning', 'Jaringan & Komunikasi Data', '9 Okt', 9),
   mk(4, 'Resume lahan basah', 'Learning', 'Lahan Basah', '6 Okt', 6),
   mk(5, 'Menyalin code mata kuliah desain', 'Learning', 'Desain & Analisis Algoritma', '5 Okt', 5),
@@ -42,3 +42,28 @@ const S = { view: innerWidth >= 1024 ? 'today' : 'learning', back: 'learning', s
             tab: 'alarm', secs: 1500, run: false, fired: '', q: '' };
 let nextId = 11;
 const $ = id => document.getElementById(id);
+
+// Helper 
+const active = cat => tasks.filter(t => t.cat === cat && !t.done).length;
+const fmt = s => String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+const dateLong = d => new Date(2026, 9, d)
+  .toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' }).replace(/^(\S+) /, '$1, ');
+const dayTasks = () => tasks.filter(t => t.day === S.sel || t.start === S.sel);
+
+const card = (t, mode) => `
+  <article class="task ${t.done ? 'done' : ''}" data-id="${t.id}">
+    <input type="checkbox" ${t.done ? 'checked' : ''} aria-label="Tandai selesai">
+    <div class="b"><b>${t.title}</b>
+      <div class="meta"><span>${t.cat === 'Personal' ? 'Personal' : mode === 'cal' ? 'Learning • ' + t.sub : t.sub}</span>
+        <span class="due">${ic('cal', 12)}${t.due}</span></div>
+    </div>
+  </article>`;
+
+const list = (arr0, mode) => {
+  const arr = arr0.filter(t => t.title.toLowerCase().includes(S.q));
+  return arr.length ? `<div class="list">${arr.map(t => card(t, mode)).join('')}</div>`
+    : `<p class="empty">${S.q ? 'Tidak ada tugas yang cocok.' : 'Belum ada tugas. Tekan + untuk menambah.'}</p>`;
+};
+
+const monthHead = () => `<div class="mh"><button class="ic" aria-label="Bulan sebelumnya">${ic('back', 20)}</button>
+  <b>Oktober 2026</b><button class="ic" aria-label="Bulan berikutnya">${ic('next', 20)}</button></div>`;
