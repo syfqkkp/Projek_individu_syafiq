@@ -1,1 +1,41 @@
+<!DOCTYPE HTML>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device=width,initial-scale=1">
+<title>MyTodo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style_Psyafiq.css">
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <nav id="sideNav" aria-label="Navigasi utama"></nav>
+  </aside>
+  <main class="main">
+    <header class="top" id="top"></header>
+    <form class="search" id="searchForm" role="search" onsubmit="return false">
+      <label class="sr" for="q">Cari tugas</label>
+      <input id="q" type="search" placeholder="Cari tugas...">
+    </form>
+    <section id="view" aria-live="polite"></section>
+    <footer class="foot">MyTodo &copy; 2026 &mdash; Psyafiq &middot; Tugas Individu JavaScript &amp; Figma></footer>
+  </main>
+  <aside class="right" id="right"></aside>
+</div>
+<nav class="bottom" id="bottomNav" aria-label="Navigasi bawah"></nav>
+<button class="fab" data-act="open" aria-label="Tambah tugas">+</button>
 
+<div class="modal" id="modal">
+  <form class="sheet" id="taskForm">
+    <h2> Tambah Tugas</h2>
+    <label>Nama tugas<input id="fTitle" placeholder="Contoh: Laprak pemweb 6" required></label>
+    <label>Kategori<select id="fCat"><option>Learning</option><option>Personal</option></select></label>
+    <label>Deadline<input id="fDate" type="date" value="2026-10-05"></label>
+    <div class="row"><button type="button" class="btn sec" data-act="close">Batal</button><button type="submit" class="btn">Simpan</button></div>
+  </form>
+</div>
+<script src="script_Psyafiq.js"></script>
+</body>
+</html>
