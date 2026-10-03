@@ -69,3 +69,98 @@ textarea{width:100%;min-height:80px;background:none;border:0;resize:vertical;out
 .sheet input:focus,.sheet select:focus{outline:0;border-color:var(--pri)}
 .sheet .row{padding:0}
 .cols{display:block}
+@media(min-width:1024px){
+ .app{max-width:none;display:grid;grid-template-columns:240px 1fr 340px;height:100vh;padding:0}
+ .side{display:flex;flex-direction:column;gap:24px;padding:24px 16px;background:var(--card);border-right:1px solid var(--line)}
+ .logo{font-size:20px;font-weight:700;display:flex;gap:10px;align-items:center}
+ .logo span{width:32px;height:32px;border-radius:10px;background:var(--pri);display:grid;place-items:center}
+ #sideNav{display:flex;flex-direction:column;gap:4px;flex:1}
+ #sideNav button{display:flex;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;color:var(--tx2);font-weight:500;text-align:left}
+ #sideNav button.on{background:#4A6CF729;color:#fff}
+ #sideNav .sp{flex:1}
+ .main{overflow:auto;padding:16px 16px 32px}
+ .top{padding:16px}
+ .cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:0 16px}
+ .cols .list{padding:0}
+ .cols h3{padding:0 0 12px}
+ .right{display:flex;flex-direction:column;gap:16px;padding:24px;background:var(--card);border-left:1px solid var(--line);overflow:auto}
+ .right .cal{padding:0}.right .day{height:36px;font-size:13px}
+ .right .month{padding:0 0 8px}
+ .right .acard{margin:0;background:var(--card2)}
+ .right .big{font-size:48px}
+ .bottom,.fab{display:none}
+ .hm{display:none}
+}
+.dk{display:none}
+@media(min-width:1024px){.dk{display:inline-block}}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.search{padding:0 16px 12px}
+.search input{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font-size:14px}
+.search input:focus{outline:0;border-color:var(--pri)}
+.foot{padding:24px 16px 0;color:var(--tx2);font-size:12px;text-align:center}
+/* buat tablet */
+@media(min-width:600px) and (max-width:1023px){
+ .app,.bottom{max-width:720px}
+ .fab{right:max(16px,calc(50% - 344px))}
+ .list{display:grid;grid-template-columns:1fr 1fr}
+ .cal{gap:8px}.day{height:52px}
+ .big{font-size:88px}
+}
+@media(min-width:1024px){.search{padding:0 32px 8px;max-width:480px}.foot{text-align:left;padding:32px 32px 0}}
+/* penyesuaian figma */
+.i{display:block;flex:none}
+.top{padding:8px 16px;min-height:56px}
+.tt{flex:1;min-width:0}.tt h1{font-size:24px;line-height:1.3}
+.dk-sub{display:none;color:var(--tx2);font-size:14px;margin-top:2px}
+.ic{display:grid;place-items:center;color:var(--tx2)}
+.top .ic.del{color:var(--err)}.top .ic:first-child{color:var(--tx)}
+.task input:checked::after{content:"✓"}
+.due{display:inline-flex;gap:4px;align-items:center}
+.bottom button{color:var(--tx2)}.bottom .on{color:var(--pri)}
+.day{width:44px;height:44px;justify-self:center}
+.day.mute{color:#5a5a5a}
+.mh{display:flex;justify-content:space-between;align-items:center;padding:0 0 8px;font-size:18px}
+.mh .ic{width:36px;height:36px;background:var(--card);border-radius:12px;color:var(--tx)}
+.calcard{padding:0 16px}.calcard .cal{padding:0}
+.dh{display:flex;justify-content:space-between;align-items:baseline;padding-right:16px}
+.dh small,h3 small{color:var(--tx2);font-size:12px;font-weight:500;margin-left:6px}
+.seg{display:flex;background:var(--card);border-radius:14px;padding:4px;gap:4px;margin:0 16px 8px}
+.seg button{flex:1;height:40px;border-radius:10px;color:var(--tx2);font-weight:600}
+.seg .on{background:var(--pri);color:#fff}
+.v-timer .blk-alarm,.v-alarm .blk-timer{display:none}
+.tcard{display:flex;flex-direction:column;align-items:center;gap:20px;background:var(--card);border-radius:24px;padding:24px;margin:8px 16px 0}
+.tcard .row{width:100%}.tcard .ring{margin:0}
+.hint{text-align:center;color:var(--tx2);font-size:12px;padding:12px 16px}
+.addAl{width:100%}
+.dt{font-size:24px;font-weight:600;padding:8px 16px 8px}
+.info .box b{font-size:15px;font-weight:600}
+.row.act{margin-top:20px}
+.logo{display:none}.rh{font-size:20px;font-weight:600}
+@media(min-width:1024px){
+   .logo{display:flex;padding:0 12px 8px}
+ #sideNav small{color:var(--tx2)}
+ #sideNav{gap:4px}#sideNav .logo{margin-bottom:20px}
+ .side{gap:0}.side>.logo{display:none}
+ .top{padding:16px 32px 8px}.tt h1{font-size:28px;font-weight:700}.dk-sub{display:block}
+ .top .ic.del{display:grid}
+ .mcount,.mday,.seg,.blk-timer{display:none!important}
+ #view{padding:0 16px}
+ .cols h3{font-size:18px}
+ .calcard{background:var(--card);border-radius:24px;padding:32px;margin:16px 16px 0}
+ .v-calendar .day{width:60px;height:60px}
+ .v-calendar .cal{gap:8px}
+ .clock{background:var(--card);border-radius:24px;padding:48px 32px;margin:16px 16px 0}
+ .clock .big{font-size:120px}
+ .blk-alarm h3{padding:24px 16px 12px}
+ .addAl{width:auto;margin-top:4px}
+ .right{gap:16px}.right .sp{flex:1}
+ .right .task{background:var(--card2)}.right .acard{background:var(--card2)}
+ .right .day{width:38px;height:38px}.right .mh{padding:0}
+ .right h4{font-size:16px;font-weight:600;margin-bottom:8px}
+ .mini{background:var(--card2);border-radius:16px;padding:16px}
+ .mini .big{font-size:40px;letter-spacing:0}.mini p{color:var(--tx2);font-size:12px}
+ .right .tcard{background:var(--card2);margin:0}
+ .right .acard .btn{padding:10px 16px}
+ #sideNav .sp{flex:1}
+}
