@@ -1,1 +1,7 @@
 :root{--bg:#111;--card:#1C1C1C;--card2:#242424;--pri:#4A6CF7;--prih:#5B7CFF;--tx:#fff;--tx2:#9A9A9A;--ok:#4CAF50;--err:#E74C3C;--line:#2e2e2e;--r:16px}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--tx);font:400 14px/1.4 Inter,system-ui,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+.app{max-width:480px;margin:auto;padding-bottom:104px}
+.side,.right{display:none}
