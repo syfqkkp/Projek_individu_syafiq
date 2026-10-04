@@ -67,3 +67,95 @@ const list = (arr0, mode) => {
 
 const monthHead = () => `<div class="mh"><button class="ic" aria-label="Bulan sebelumnya">${ic('back', 20)}</button>
   <b>Oktober 2026</b><button class="ic" aria-label="Bulan berikutnya">${ic('next', 20)}</button></div>`;
+
+function cal() {
+  let h = WD.map(d => `<i class="wd">${d}</i>`).join('');
+  const first = new Date(2026, 9, 1).getDay();
+  for (let i = 0; i < first; i++) h += `<button class="day mute" disabled>${27 + i}</button>`;
+  for (let d = 1; d <= 31; d++) {
+    const has = tasks.some(t => !t.done && (t.day === d || t.start === d));
+    h += `<button class="day ${d === S.sel ? 'sel' : ''} ${has ? 'has' : ''}" data-d="${d}">${d}</button>`;
+  }
+  return `<div class="cal">${h}</div>`;
+}
+
+const timerCard = () => `<div class="tcard"><span class="sub" style="padding:0">Timer belajar</span>
+  <div class="ring js-timer">${fmt(S.secs)}</div>
+  <div class="row" style="padding:0"><button class="btn" data-act="start">Mulai</button>
+  <button class="btn sec" data-act="pause">Pause</button><button class="btn sec" data-act="reset">Reset</button></div></div>
+  <p class="hint">Fokus 25 menit, lalu istirahat 5 menit.</p>`;
+
+const alarmCard = (a, i, ctl) => `<div class="acard ${a.on ? '' : 'off'}"><div><b>${a.time}</b><div class="sub" style="padding:0">${a.label}</div></div>
+  ${ctl ? `<button class="tg ${a.on ? 'on' : ''}" data-act="tg" data-i="${i}" aria-label="Aktifkan alarm"></button>` : ''}</div>`;
+
+//Render
+function topbar() {
+  const v = S.view, hm = n => `<span class="ic hm">${ic(n)}</span>`;
+  const todayTxt = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  let title, sub = '', left = '', right = '', addBtn = true;
+  switch (v) {
+    case 'today': title = 'Hari ini'; sub = todayTxt; break;
+    case 'learning': title = '📖 Learning'; sub = active('Learning') + ' tugas aktif'; left = hm('menu'); right = hm('search') + hm('bell') + hm('more'); break;
+    case 'personal': title = '🏠 Personal'; sub = active('Personal') + ' tugas aktif'; right = hm('search') + hm('bell') + hm('more'); break;
+    case 'calendar': title = 'Kalender'; sub = 'Pilih tanggal untuk melihat tugas'; right = hm('search') + hm('bell'); break;
+    case 'clock': title = 'Jam'; sub = 'Alarm dan timer belajar'; right = hm('bell') + hm('more'); addBtn = false; break;
+    case 'detail': title = 'Detail Tugas'; left = `<button class="ic" data-go="${S.back}" aria-label="Kembali">${ic('back')}</button>`;
+      right = `<button class="ic del" data-act="delT" aria-label="Hapus tugas">${ic('trash')}</button>` + hm('more'); addBtn = false; break;
+  }
+  $('top').innerHTML = `${left}<div class="tt"><h1>${title}</h1><p class="dk-sub">${sub}</p></div>${right}
+    ${addBtn ? '<button class="btn dk" data-act="open">+ Tambah Tugas</button>' : ''}`;
+}
+
+function view() {
+  let h = '';
+  $('view').className = 'v-' + S.view + ' v-' + S.tab;
+  switch (S.view) {
+    case 'today':
+      h = `<div class="cols">
+          <div><h3>📖 Learning <small>${active('Learning')} tugas aktif</small></h3>${list(tasks.filter(t => t.cat === 'Learning'))}</div>
+          <div><h3>🏠 Personal <small>${active('Personal')} tugas aktif</small></h3>${list(tasks.filter(t => t.cat === 'Personal'))}</div>
+        </div>`;
+      break;
+    case 'learning':
+    case 'personal': {
+      const cat = S.view === 'learning' ? 'Learning' : 'Personal';
+      h = `<div class="tabs">
+          <button class="chip ${cat === 'Learning' ? 'on' : ''}" data-go="learning">📖 Learning</button>
+          <button class="chip ${cat === 'Personal' ? 'on' : ''}" data-go="personal">🏠 Personal</button></div>
+        <p class="sub mcount">${active(cat)} tugas aktif</p>${list(tasks.filter(t => t.cat === cat))}`;
+      break;
+    }
+    case 'calendar': {
+      const day = dayTasks();
+      h = `<div class="calcard">${monthHead()}${cal()}</div>
+        <div class="mday"><div class="dh"><h3>${dateLong(S.sel)}</h3><small>${day.length} tugas</small></div>${list(day, 'cal')}</div>`;
+      break;
+    }
+    case 'clock':
+      h = `<div class="seg"><button class="${S.tab === 'alarm' ? 'on' : ''}" data-act="tab-alarm">Alarm</button>
+          <button class="${S.tab === 'timer' ? 'on' : ''}" data-act="tab-timer">Timer</button></div>
+        <section class="blk-alarm">
+          <div class="clock"><div class="big js-clock"></div><p class="js-date"></p></div>
+          <h3>Alarm berikutnya</h3>${alarms.map((a, i) => alarmCard(a, i, true)).join('')}
+          <div class="pad"><button class="btn addAl" data-act="addAlarm">+ Tambah Alarm</button></div>
+        </section>
+        <section class="blk-timer">${timerCard()}</section>`;
+      break;
+    case 'detail': {
+      const t = tasks.find(x => x.id === S.cur);
+      if (!t) { h = '<p class="empty">Tugas tidak ditemukan.</p>'; break; }
+      const full = t.day ? `${t.day} Oktober 2026` : t.due, dn = t.check.filter(c => c.d).length;
+      h = `<h2 class="dt">${t.title}</h2>
+        <div class="pad" style="margin-bottom:12px"><span class="badge">${t.cat} • ${t.sub || 'Personal'}</span></div>
+        <div class="info"><div class="box"><small>Deadline</small><b>${full}</b></div>
+        <div class="box"><small>Status</small><b>${t.done ? 'Selesai' : 'Belum selesai'}</b></div></div>
+        <div class="dh"><h3>Checklist</h3><small>${dn}/${t.check.length}</small></div>
+        <div class="box">${t.check.length ? t.check.map((c, i) => `<label class="chk"><input type="checkbox" data-i="${i}" ${c.d ? 'checked' : ''}>${c.t}</label>`).join('') : '<p class="empty" style="padding:8px">Belum ada checklist.</p>'}</div>
+        <h3>Catatan</h3><div class="box"><textarea id="note" placeholder="Tulis catatan...">${t.note}</textarea></div>
+        <div class="row act"><button class="btn sec" data-act="save">Simpan perubahan</button>
+        <button class="btn" data-act="begin">Mulai tugas</button></div>`;
+      break;
+    }
+  }
+  $('view').innerHTML = h;
+}
