@@ -27,7 +27,7 @@ Aplikasi dibangun tanpa framework, hanya dengan HTML5, CSS3, dan JavaScript murn
 ## Struktur Berkas
 ```
 .
-├── index_Psyafiq.html   # struktur halaman (HTML5 semantik)
+├── index.html   # struktur halaman (HTML5 semantik)
 ├── style_Psyafiq.css    # tampilan dan layout responsif
 └── script_Psyafiq.js    # logika aplikasi (DOM, event, data tugas)
 ```
@@ -38,7 +38,7 @@ Aplikasi dibangun tanpa framework, hanya dengan HTML5, CSS3, dan JavaScript murn
    git clone <url-repositori>
    ```
 2. Buka folder proyek.
-3. Buka berkas `index_Psyafiq.html` dengan browser modern (Chrome, Edge, Firefox, dll.) dengan klik dua kali atau klik kanan lalu *Open with*.
-4. Alternatif: gunakan ekstensi **Live Server** di VS Code (klik kanan `index_Psyafiq.html` lalu *Open with Live Server*).
+3. Buka berkas `index.html` dengan browser modern (Chrome, Edge, Firefox, dll.) dengan klik dua kali atau klik kanan lalu *Open with*.
+4. Alternatif: gunakan ekstensi **Live Server** di VS Code (klik kanan `index.html` lalu *Open with Live Server*).
 
 Tidak perlu instalasi tambahan karena tidak ada dependensi atau proses build.
